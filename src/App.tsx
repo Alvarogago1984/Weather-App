@@ -1,5 +1,14 @@
+import { Sidebar } from './components/Sidebar';
+import { ContentBody } from './components/ContentBody';
+import { ContentMain } from './styles/AppCss';
+
 function App() {
-  return <h1>Hola</h1>;
+  return (
+    <ContentMain>
+      <Sidebar />
+      <ContentBody />
+    </ContentMain>
+  );
 }
 
 export default App;
