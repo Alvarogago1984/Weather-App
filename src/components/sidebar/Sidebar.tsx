@@ -1,7 +1,7 @@
-import { useCurrentWeather } from '../services/useCurrentWeather';
-import GpsIcon from '../assets/icons/gps.svg';
-import Location from '../assets/icons/location.svg';
-import { useDateUtils } from '../lib/useDateUtils';
+import { useCurrentWeather } from '../../services/useCurrentWeather';
+import GpsIcon from '../../assets/icons/gps.svg';
+import Location from '../../assets/icons/location.svg';
+import { useDateUtilCurrentDay } from '../../lib/useDateUtilCurrentDay';
 import {
   SidebarSection,
   TopDiv,
@@ -17,13 +17,21 @@ import {
   DatePlace,
   LocationImg,
   DateDaypoint,
-} from '../styles/SidebarCss';
+} from '../../styles/SidebarCss';
 
-export const Sidebar = () => {
+interface SidebarProps {
+  isFahrenheit: boolean;
+}
+
+export const Sidebar = ({ isFahrenheit }: SidebarProps) => {
   const { weatherData } = useCurrentWeather();
-  const { dayDate, monthDate, temperature, dayNameSort } = useDateUtils();
-
-  console.log(weatherData);
+  const {
+    dayDate,
+    monthDate,
+    temperature,
+    dayNameSort,
+    temperatureFahrenheit,
+  } = useDateUtilCurrentDay();
 
   return (
     <SidebarSection>
@@ -33,7 +41,6 @@ export const Sidebar = () => {
           <img src={GpsIcon} alt="Icon GPS" />
         </IconGps>
       </TopDiv>
-
       {weatherData?.weather.map((weathe) => (
         <WeatherData key={weathe.id}>
           <ImgDescription
@@ -41,14 +48,12 @@ export const Sidebar = () => {
             alt="Weather Icon"
           />
           <Temperature>
-            {temperature}
-            <TemperatureText>ºC</TemperatureText>
+            {isFahrenheit ? temperature : temperatureFahrenheit}
+            <TemperatureText>{isFahrenheit ? 'ºC' : 'ºF'}</TemperatureText>
           </Temperature>
-
           <WeatherMain>{weathe.main}</WeatherMain>
         </WeatherData>
       ))}
-
       <ContainerDate>
         <DateDay>
           {'Today'}

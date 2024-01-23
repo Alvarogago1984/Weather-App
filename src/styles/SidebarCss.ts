@@ -2,7 +2,6 @@ import styled from 'styled-components';
 
 export const SidebarSection = styled.section`
   background: var(--color-primary);
-  
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -65,14 +64,12 @@ export const Temperature = styled.p`
   margin-bottom: 87px;
   box-sizing: border-box;
 `;
-
 export const TemperatureText = styled.span`
   color: #a09fb1;
   font-family: 'Raleway', sans-serif;
   font-size: 48px;
   margin: 0px;
 `;
-
 export const WeatherMain = styled.p`
   color: #a09fb1;
   text-align: center;
@@ -99,7 +96,6 @@ export const ContainerDate = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-
   flex-shrink: 1;
 `;
 export const DatePlace = styled.p`
