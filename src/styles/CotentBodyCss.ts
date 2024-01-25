@@ -21,10 +21,9 @@ export const Celsius = styled.button`
   height: 40px;
   border-radius: 54px;
   background: #e7e7eb;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   box-sizing: border-box;
+  cursor: pointer;
+  
 `;
 export const CelsiusText = styled.div`
   width: 18.095px;
@@ -42,11 +41,10 @@ export const Fahrenheit = styled.button`
   height: 40px;
   border-radius: 54px;
   background: #585676;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   margin-right: 125px;
   box-sizing: border-box;
+  cursor:pointer;
+
 `;
 export const FahrenheitText = styled.div`
   width: 16.19px;

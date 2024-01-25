@@ -94,6 +94,7 @@ export const HightlightsText = styled.p`
   font-weight: 500;
   line-height: normal;
 `;
+
 export const WindStatusValue = styled.p`
   color: #e7e7eb;
   font-family: Raleway;
@@ -102,6 +103,7 @@ export const WindStatusValue = styled.p`
   font-weight: 700;
   line-height: normal;
 `;
+// ${(props) => ((props.$humidity ?? 0) * 229) / 100}px;
 export const WindStatusValueSpan = styled.span`
   color: #e7e7eb;
   font-family: Raleway;
@@ -116,12 +118,14 @@ export const WindStatusWsw = styled.div`
   gap: 5.71px;
   margin-top: 31px;
 `;
-export const WindImg = styled.div`
+
+export const WindImg = styled.div<{ windDeg: number }>`
   background: rgba(255, 255, 255, 0.3);
   border-radius: 50%;
   width: 29.49px;
   height: 29.49px;
   display: flex;
+  transform: ${(props) => `rotate(${props.windDeg}deg)`};
 `;
 export const HumidityValue = styled.p`
   color: #e7e7eb;
@@ -208,5 +212,3 @@ export const AirPressureValueTex = styled.span`
   font-size: 36px;
   font-weight: 500;
 `;
-
-

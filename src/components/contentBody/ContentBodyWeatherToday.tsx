@@ -28,13 +28,12 @@ import {
   VisibilityValueText,
   AirPressureValueTex,
 } from '../../styles/ContentBodyweatherTodayCss';
-import LocationIcon from '../../assets/icons/location.svg';
+import NavigationIcon from '../../assets/icons/navigation.svg';
 import { useDateUtilCurrentDay } from '../../lib/useDateUtilCurrentDay';
 
 export const ContentBodyWeatherToday = () => {
-
   // Extract environment data from custom hooks.
-  const { windStatus, humidity, visibility, airPressure } =
+  const { windStatus, humidity, visibility, airPressure, windDeg } =
     useDateUtilCurrentDay();
 
   return (
@@ -49,8 +48,8 @@ export const ContentBodyWeatherToday = () => {
             {windStatus} <WindStatusValueSpan>mph</WindStatusValueSpan>
           </WindStatusValue>
           <WindStatusWsw>
-            <WindImg>
-              <img src={LocationIcon} alt="Navigation Icon" />
+            <WindImg windDeg={windDeg}>
+              <img src={NavigationIcon} alt="Navigation Icon" />
             </WindImg>
             <WindWswText>WSW</WindWswText>
           </WindStatusWsw>

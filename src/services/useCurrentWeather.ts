@@ -1,6 +1,5 @@
-import { useEffect, useState } from 'react';
-
-interface WeatherData {
+import { useEffect, useState, Dispatch } from 'react';
+export interface WeatherData {
   base: string;
   clouds: {
     all: number;
@@ -32,31 +31,49 @@ interface WeatherData {
   };
   timezone: number;
   visibility: number;
-  weather: Array<{
+  weather: {
     description: string;
     icon: string;
     id: number;
     main: string;
-  }>;
+  }[];
   wind: {
     deg: number;
     gust: number;
     speed: number;
   };
 }
-
-interface UseCurrentWeatherData {
-  weatherData: WeatherData | null;
+export interface LongLatValueProps {
+  lat: number;
+  lon: number;
+  stateCountry: string;
+  name:string;
+}
+export interface UseCurrentWeatherData {
+  weatherData?: WeatherData | null;
+  city: string;
+  setCity: Dispatch<React.SetStateAction<string>>;
+  cityLocal?: string;
+  setCityLocal: Dispatch<React.SetStateAction<string>>;
+  setLonLatValue: Dispatch<React.SetStateAction<LongLatValueProps | undefined>>;
+  lonLatValue: LongLatValueProps | undefined;
 }
 
 export const useCurrentWeather = (): UseCurrentWeatherData => {
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
+  const [city, setCity] = useState<string>('');
+  const [cityLocal, setCityLocal] = useState<string>(city);
+  const [lonLatValue, setLonLatValue] = useState<LongLatValueProps>();
 
   useEffect(() => {
     const fetchWeather = async () => {
       try {
+        const latitude = lonLatValue?.lat;
+        const longitude = lonLatValue?.lon;
         const url =
-          'https://api.openweathermap.org/data/2.5/weather?q=Huelva&appid=840fdbbddab09b30463280b8c2a850ed&lang=es&units=metric';
+          latitude && longitude
+            ? `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=840fdbbddab09b30463280b8c2a850ed&lang=es&units=metric`
+            : `https://api.openweathermap.org/data/2.5/weather?q=${'Huelva'}&appid=840fdbbddab09b30463280b8c2a850ed&lang=es&units=metric`;
         const response = await fetch(url);
         const data = await response.json();
         setWeatherData(data);
@@ -65,6 +82,15 @@ export const useCurrentWeather = (): UseCurrentWeatherData => {
       }
     };
     fetchWeather();
-  }, []);
-  return { weatherData };
+  }, [lonLatValue]);
+
+  return {
+    weatherData,
+    city,
+    setCity,
+    cityLocal,
+    setCityLocal,
+    setLonLatValue,
+    lonLatValue
+  };
 };

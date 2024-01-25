@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
+import { CurrentWeatherContext } from '../context/CurrentWeatherContext';
 
 interface WeatherFiveDay {
   city: {
@@ -41,6 +42,7 @@ interface WeatherFiveDay {
       speed: number;
     };
   }[];
+  cityLocal: string;
 }
 interface WeatherFiveDayResponse {
   weatherFiveData: WeatherFiveDay | null;
@@ -48,14 +50,20 @@ interface WeatherFiveDayResponse {
 
 export const useFiveDayWeather = (): WeatherFiveDayResponse => {
   const [weatherFiveData, setWeatherFiveData] = useState<WeatherFiveDay | null>(
-    null
+    null,
   );
+  const { lonLatValue = null } = useContext(CurrentWeatherContext) || {};
 
   useEffect(() => {
     const fetchFiveDay = async () => {
       try {
+        const latitude = lonLatValue?.lat;
+        const longitude = lonLatValue?.lon;
         const url =
-          'https://api.openweathermap.org/data/2.5/forecast?q=Huelva&appid=840fdbbddab09b30463280b8c2a850ed&lang=es&units=metric';
+          latitude && longitude
+            ? `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=840fdbbddab09b30463280b8c2a850ed&lang=es&units=metric`
+            : `https://api.openweathermap.org/data/2.5/forecast?q=${'Huelva'}&appid=840fdbbddab09b30463280b8c2a850ed&lang=es&units=metric`;
+
         const response = await fetch(url);
         const data = await response.json();
         setWeatherFiveData(data);
@@ -64,6 +72,6 @@ export const useFiveDayWeather = (): WeatherFiveDayResponse => {
       }
     };
     fetchFiveDay();
-  }, []);
-  return {weatherFiveData};
+  }, [lonLatValue]);
+  return { weatherFiveData };
 };

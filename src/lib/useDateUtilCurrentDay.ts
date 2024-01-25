@@ -1,8 +1,11 @@
-import { useCurrentWeather } from '../services/useCurrentWeather';
+import { useContext } from 'react';
+import {CurrentWeatherContext} from '../context/CurrentWeatherContext'
+import { UseCurrentWeatherData } from '../services/useCurrentWeather';
 
 export const useDateUtilCurrentDay = () => {
-  const { weatherData } = useCurrentWeather();
-  console.log(weatherData);
+  
+  const {weatherData}= useContext< UseCurrentWeatherData | null>(CurrentWeatherContext) || {}
+console.log(weatherData)
 
   const daysOfWeek = [
     'Sunday',
@@ -37,6 +40,7 @@ export const useDateUtilCurrentDay = () => {
   const temperatureFahrenheit =Math.round((temperature * 9) / 5 + 32);
 
   const windStatus = Math.round(weatherData?.wind.speed || 0);
+  const windDeg = weatherData?.wind.deg || 0
   const humidity = weatherData ? weatherData?.main.humidity : 0;
   const visibility = weatherData
     ? parseFloat((weatherData?.visibility / 1609.34).toFixed(1))
@@ -53,5 +57,6 @@ export const useDateUtilCurrentDay = () => {
     visibility,
     airPressure,
     temperatureFahrenheit,
+    windDeg,
   };
 };

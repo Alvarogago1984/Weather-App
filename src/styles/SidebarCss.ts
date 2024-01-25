@@ -15,6 +15,8 @@ export const Input = styled.input`
   width: 161px;
   height: 40px;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  caret-color: transparent;
   &::placeholder {
     color: #e7e7eb;
     font-family: 'Raleway', sans-serif;
@@ -44,7 +46,7 @@ export const TopDiv = styled.div`
     gap: 151px;
   }
 `;
-export const WeatherData = styled.div`
+export const WeatherDat = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -83,6 +85,7 @@ export const DateDay = styled.p`
   font-family: 'Raleway', sans-serif;
   font-size: 18px;
   font-weight: 500;
+  margin-bottom: 32px;
 `;
 export const DateDaypoint = styled.span`
   color: #88869d;
@@ -97,6 +100,7 @@ export const ContainerDate = styled.div`
   flex-direction: column;
   align-items: center;
   flex-shrink: 1;
+  margin-bottom: 52px;
 `;
 export const DatePlace = styled.p`
   color: #88869d;
