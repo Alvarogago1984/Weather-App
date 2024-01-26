@@ -53,3 +53,11 @@ export const Min = styled.span`
   font-weight: 500;
   line-height: normal;
 `;
+export const Loading = styled.div`
+display: flex;
+justify-content: center;
+align-items: center;
+`
+export const LoadingText = styled.span`
+color: white;
+`

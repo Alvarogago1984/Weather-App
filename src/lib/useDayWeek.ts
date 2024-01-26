@@ -2,14 +2,14 @@ import { useDateUtilFiveDay } from '../lib/useDateUtilFiveDay';
 import { formatDate } from './formatDate';
 
 export const useDayWeek = () => {
-  const { datesFilterMin, datesFilterMax} = useDateUtilFiveDay();
+  const { datesFilterMin, datesFilterMax, loadingFive} = useDateUtilFiveDay();
 
   const dayOfWeek = (number: number) => {
     return formatDate(datesFilterMax?.[number]?.dt_txt || '');
   };
 
   const iconImg = (number: number) => {
-    return datesFilterMax?.[number].weather.map((weathe) => weathe.icon);
+    return datesFilterMax?.[number].weather.map((weathe) => weathe.icon) ;
   };
 
   const temperatureCelsiusMax = (number: number): number => {
@@ -47,5 +47,6 @@ export const useDayWeek = () => {
     formatMaxTemperature,
     formatMinTemperature,
     iconImg,
+    loadingFive,
   };
 };

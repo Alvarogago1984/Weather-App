@@ -1,7 +1,7 @@
 import { useFiveDayWeather } from '../services/useFiveDayWeather';
 
 export const useDateUtilFiveDay = () => {
-  const { weatherFiveData } = useFiveDayWeather();
+  const { weatherFiveData, loadingFive } = useFiveDayWeather();
 
   const datesFilterMin = weatherFiveData?.list.filter((a) =>
     a.dt_txt.endsWith('06:00:00'),
@@ -10,5 +10,5 @@ export const useDateUtilFiveDay = () => {
     a.dt_txt.endsWith('15:00:00'),
   );
 
-  return { datesFilterMin, datesFilterMax };
+  return { datesFilterMin, datesFilterMax, loadingFive };
 };

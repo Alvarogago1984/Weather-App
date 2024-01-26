@@ -1,5 +1,10 @@
 import { useState, useEffect, useContext } from 'react';
 import { CurrentWeatherContext } from '../context/CurrentWeatherContext';
+import { useGeolocation } from '../lib/useGeolocation';
+import {
+  CoorsProps,
+  CoordsBooleanContext,
+} from '../context/CoordsBooleanContext';
 
 interface WeatherFiveDay {
   city: {
@@ -46,32 +51,41 @@ interface WeatherFiveDay {
 }
 interface WeatherFiveDayResponse {
   weatherFiveData: WeatherFiveDay | null;
+  loadingFive: boolean;
 }
 
 export const useFiveDayWeather = (): WeatherFiveDayResponse => {
   const [weatherFiveData, setWeatherFiveData] = useState<WeatherFiveDay | null>(
     null,
   );
+  const [loadingFive, setLoadingFive] = useState<boolean>(false);
   const { lonLatValue = null } = useContext(CurrentWeatherContext) || {};
+  const { coords } = useGeolocation();
+  const { isCoords = null } =
+    useContext<CoorsProps | null>(CoordsBooleanContext) || {};
 
   useEffect(() => {
     const fetchFiveDay = async () => {
       try {
-        const latitude = lonLatValue?.lat;
-        const longitude = lonLatValue?.lon;
+        setLoadingFive(true);
+        const latitude = isCoords ? coords?.Latitude : lonLatValue?.lat;
+        const longitude = isCoords ? coords?.Longitude : lonLatValue?.lon;
         const url =
           latitude && longitude
             ? `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=840fdbbddab09b30463280b8c2a850ed&lang=es&units=metric`
-            : `https://api.openweathermap.org/data/2.5/forecast?q=${'Huelva'}&appid=840fdbbddab09b30463280b8c2a850ed&lang=es&units=metric`;
+            : `https://api.openweathermap.org/data/2.5/forecast?q=${'Madrid'}&appid=840fdbbddab09b30463280b8c2a850ed&lang=es&units=metric`;
 
         const response = await fetch(url);
         const data = await response.json();
         setWeatherFiveData(data);
+        setLoadingFive(false);
       } catch (error) {
         console.error(error);
       }
     };
+
     fetchFiveDay();
-  }, [lonLatValue]);
-  return { weatherFiveData };
+  }, [coords, isCoords, lonLatValue]);
+
+  return { weatherFiveData, loadingFive };
 };

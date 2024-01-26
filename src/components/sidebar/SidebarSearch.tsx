@@ -17,14 +17,14 @@ import {
   SearchListLidiv,
 } from '../../styles/SidebarSearchCSS';
 import { useListCity } from '../../services/useListCity';
-import {LongLatValueProps} from '../../services/useCurrentWeather'
-import {Dispatch} from 'react'
-
+import { LongLatValueProps } from '../../services/useCurrentWeather';
+import { Dispatch } from 'react';
 interface SidebarSearchProps extends UseCurrentWeatherData {
   setStateInput: React.Dispatch<React.SetStateAction<boolean>>;
 }
 interface SidebarProps extends SidebarSearchProps {
-  setLonLatValue: Dispatch<React.SetStateAction<LongLatValueProps | undefined>>
+  setLonLatValue: Dispatch<React.SetStateAction<LongLatValueProps | undefined>>;
+  setIsCoords: React.Dispatch<React.SetStateAction<boolean>> | null;
 }
 
 export const SidebarSearch = ({
@@ -33,8 +33,8 @@ export const SidebarSearch = ({
   city,
   setCityLocal,
   setLonLatValue,
+  setIsCoords,
 }: SidebarProps) => {
-  
   const { listCity } = useListCity();
 
   const handleCloseSidebarSearch = () => {
@@ -44,12 +44,20 @@ export const SidebarSearch = ({
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
     setCityLocal(city);
-    setCity('')
+    setCity('');
   };
 
-  const handleClickLatLong = (lat: number, lon: number, stateCountry:string , name:string) => {
-    setLonLatValue({ lat, lon, stateCountry, name});
-    setStateInput(true)
+  const handleClickLatLong = (
+    lat: number,
+    lon: number,
+    stateCountry: string,
+    name: string,
+  ) => {
+    setLonLatValue({ lat, lon, stateCountry, name });
+    setStateInput(true);
+    if (setIsCoords) {
+      setIsCoords(false);
+    }
   };
 
   return (
@@ -79,7 +87,9 @@ export const SidebarSearch = ({
             listCity.map((list) => (
               <SearchListLi
                 key={list.lat}
-                onClick={() => handleClickLatLong(list.lat, list.lon, list.state, list.name)}
+                onClick={() =>
+                  handleClickLatLong(list.lat, list.lon, list.state, list.name)
+                }
               >
                 <SearchListLidiv>
                   <SearchListLiText>

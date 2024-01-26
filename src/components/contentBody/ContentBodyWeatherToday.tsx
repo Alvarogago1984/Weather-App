@@ -48,7 +48,7 @@ export const ContentBodyWeatherToday = () => {
             {windStatus} <WindStatusValueSpan>mph</WindStatusValueSpan>
           </WindStatusValue>
           <WindStatusWsw>
-            <WindImg windDeg={windDeg}>
+            <WindImg $winddeg={windDeg}>
               <img src={NavigationIcon} alt="Navigation Icon" />
             </WindImg>
             <WindWswText>WSW</WindWswText>

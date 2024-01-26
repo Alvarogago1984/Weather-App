@@ -5,7 +5,6 @@ import { UseCurrentWeatherData } from '../services/useCurrentWeather';
 export const useDateUtilCurrentDay = () => {
   
   const {weatherData}= useContext< UseCurrentWeatherData | null>(CurrentWeatherContext) || {}
-console.log(weatherData)
 
   const daysOfWeek = [
     'Sunday',

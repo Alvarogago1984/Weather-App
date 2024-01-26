@@ -21,12 +21,19 @@ import {
 import { CurrentWeatherContext } from '../../context/CurrentWeatherContext';
 import { SidebarSearch } from '../sidebar/SidebarSearch';
 import { UseCurrentWeatherData } from '../../services/useCurrentWeather';
+import {
+  CoorsProps,
+  CoordsBooleanContext,
+} from '../../context/CoordsBooleanContext';
 interface SidebarProps {
   isFahrenheit: boolean;
 }
 
 export const Sidebar = ({ isFahrenheit }: SidebarProps) => {
   const [stateInput, setStateInput] = useState<boolean>(true);
+
+  const { setIsCoords = null } =
+    useContext<CoorsProps | null>(CoordsBooleanContext) || {};
 
   const {
     weatherData = null,
@@ -36,8 +43,9 @@ export const Sidebar = ({ isFahrenheit }: SidebarProps) => {
     cityLocal,
     setLonLatValue = () => {},
     lonLatValue,
+    coords,
   } = useContext<UseCurrentWeatherData | null>(CurrentWeatherContext) || {};
-  
+
   const {
     dayDate,
     monthDate,
@@ -46,6 +54,11 @@ export const Sidebar = ({ isFahrenheit }: SidebarProps) => {
     temperatureFahrenheit,
   } = useDateUtilCurrentDay();
 
+  const handleClickCoords = () => {
+    if (setIsCoords) {
+      setIsCoords(true);
+    }
+  };
   const handleStateInput = () => {
     setStateInput(false);
     setCityLocal('');
@@ -60,7 +73,7 @@ export const Sidebar = ({ isFahrenheit }: SidebarProps) => {
               placeholder="Seach for places"
               onClick={handleStateInput}
             />
-            <IconGps>
+            <IconGps onClick={handleClickCoords}>
               <img src={GpsIcon} alt="Icon GPS" />
             </IconGps>
           </TopDiv>
@@ -85,7 +98,7 @@ export const Sidebar = ({ isFahrenheit }: SidebarProps) => {
             </DateDay>
             <DatePlace>
               <LocationImg src={Location} alt="Location Icon" />
-              {lonLatValue
+              {lonLatValue && coords?.Latitude && coords.Longitude
                 ? lonLatValue.name + ', ' + lonLatValue.stateCountry
                 : weatherData?.name}
             </DatePlace>
@@ -100,6 +113,7 @@ export const Sidebar = ({ isFahrenheit }: SidebarProps) => {
           cityLocal={cityLocal}
           setLonLatValue={setLonLatValue}
           lonLatValue={lonLatValue}
+          setIsCoords={setIsCoords}
         />
       )}
     </SidebarSection>

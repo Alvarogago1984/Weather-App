@@ -1,4 +1,8 @@
-import { useEffect, useState, Dispatch } from 'react';
+import { useEffect, useState, Dispatch, useContext } from 'react';
+import { useGeolocation } from '../lib/useGeolocation';
+import { CoorsProps, CoordsBooleanContext } from '../context/CoordsBooleanContext'
+import {  GeolocationProps } from '../lib/useGeolocation'
+ 
 export interface WeatherData {
   base: string;
   clouds: {
@@ -57,6 +61,7 @@ export interface UseCurrentWeatherData {
   setCityLocal: Dispatch<React.SetStateAction<string>>;
   setLonLatValue: Dispatch<React.SetStateAction<LongLatValueProps | undefined>>;
   lonLatValue: LongLatValueProps | undefined;
+  coords?:GeolocationProps | undefined;
 }
 
 export const useCurrentWeather = (): UseCurrentWeatherData => {
@@ -65,15 +70,18 @@ export const useCurrentWeather = (): UseCurrentWeatherData => {
   const [cityLocal, setCityLocal] = useState<string>(city);
   const [lonLatValue, setLonLatValue] = useState<LongLatValueProps>();
 
+const {coords} = useGeolocation()
+const { isCoords } = useContext<CoorsProps | null>(CoordsBooleanContext) || {};
+
   useEffect(() => {
     const fetchWeather = async () => {
       try {
-        const latitude = lonLatValue?.lat;
-        const longitude = lonLatValue?.lon;
+        const latitude =isCoords ? coords?.Latitude: lonLatValue?.lat;
+        const longitude =isCoords ? coords?.Longitude: lonLatValue?.lon;
         const url =
           latitude && longitude
             ? `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=840fdbbddab09b30463280b8c2a850ed&lang=es&units=metric`
-            : `https://api.openweathermap.org/data/2.5/weather?q=${'Huelva'}&appid=840fdbbddab09b30463280b8c2a850ed&lang=es&units=metric`;
+            : `https://api.openweathermap.org/data/2.5/weather?q=${'Madrid'}&appid=840fdbbddab09b30463280b8c2a850ed&lang=es&units=metric`;
         const response = await fetch(url);
         const data = await response.json();
         setWeatherData(data);
@@ -82,7 +90,7 @@ export const useCurrentWeather = (): UseCurrentWeatherData => {
       }
     };
     fetchWeather();
-  }, [lonLatValue]);
+  }, [coords, isCoords, lonLatValue]);
 
   return {
     weatherData,
@@ -91,6 +99,7 @@ export const useCurrentWeather = (): UseCurrentWeatherData => {
     cityLocal,
     setCityLocal,
     setLonLatValue,
-    lonLatValue
+    lonLatValue,
+    coords,
   };
 };

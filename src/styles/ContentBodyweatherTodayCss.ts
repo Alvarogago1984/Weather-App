@@ -118,14 +118,16 @@ export const WindStatusWsw = styled.div`
   gap: 5.71px;
   margin-top: 31px;
 `;
-
-export const WindImg = styled.div<{ windDeg: number }>`
+interface WindImgProps {
+  $winddeg: number;
+}
+export const WindImg = styled.div<WindImgProps>`
   background: rgba(255, 255, 255, 0.3);
   border-radius: 50%;
   width: 29.49px;
   height: 29.49px;
   display: flex;
-  transform: ${(props) => `rotate(${props.windDeg}deg)`};
+  transform: ${(props) => `rotate(${props.$winddeg}deg)`};
 `;
 export const HumidityValue = styled.p`
   color: #e7e7eb;

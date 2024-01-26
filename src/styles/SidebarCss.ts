@@ -35,6 +35,7 @@ export const IconGps = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: space-around;
+  cursor: pointer;
 `;
 export const TopDiv = styled.div`
   flex-shrink: 1;
