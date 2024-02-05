@@ -32,7 +32,7 @@ export const ContentBody = ({
     <ContentSection>
       <ChangeTemperature>
         <Celsius onClick={handleFaCelsius}>
-          <CelsiusText>ºC</CelsiusText>
+          <CelsiusText >ºC</CelsiusText>
         </Celsius>
         <Fahrenheit onClick={handleFahrenheit}>
           <FahrenheitText>ºF</FahrenheitText>

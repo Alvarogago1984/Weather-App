@@ -25,124 +25,39 @@ export const ContentBodyWeatherWeek = ({
     loadingFive,
   } = useDayWeek();
 
+  const days = [0, 1, 2, 3, 4];
+
   return (
     <WeatherWeek>
-      <DayWeek>
-        {!loadingFive ? (
-          <>
-            <DayOfWeek>Tomorrow</DayOfWeek>
-            <DayWeekImg
-              src={
-                iconImg(0)
-                  ? `https://openweathermap.org/img/wn/${iconImg(0)}@2x.png`
-                  : ''
-              }
-              alt="Weather Icon"
-            />
-            <DayWeekTempMaxMin>
-              <Max>{formatMaxTemperature(0, isFahrenheit)}</Max>
-              <Min>{formatMinTemperature(0, isFahrenheit)}</Min>
-            </DayWeekTempMaxMin>
-          </>
-        ) : (
-          <Loading>
-            <LoadingText>Loading...</LoadingText>
-          </Loading>
-        )}
-      </DayWeek>
-
-      <DayWeek>
-        {!loadingFive ? (
-          <>
-            <DayOfWeek>{dayOfWeek(1)}</DayOfWeek>
-            <DayWeekImg
-              src={
-                iconImg(1)
-                  ? `https://openweathermap.org/img/wn/${iconImg(1)}@2x.png`
-                  : ''
-              }
-              alt="Weather Icon"
-            />
-            <DayWeekTempMaxMin>
-              <Max>{formatMaxTemperature(1, isFahrenheit)}</Max>
-              <Min>{formatMinTemperature(1, isFahrenheit)}</Min>
-            </DayWeekTempMaxMin>
-          </>
-        ) : (
-          <Loading>
-            <LoadingText>Loading...</LoadingText>
-          </Loading>
-        )}
-      </DayWeek>
-      <DayWeek>
-        {!loadingFive ? (
-          <>
-            <DayOfWeek>{dayOfWeek(2)}</DayOfWeek>
-            <DayWeekImg
-              src={
-                iconImg(2)
-                  ? `https://openweathermap.org/img/wn/${iconImg(2)}@2x.png`
-                  : ''
-              }
-              alt="Weather Icon"
-            />
-            <DayWeekTempMaxMin>
-              <Max>{formatMaxTemperature(2, isFahrenheit)}</Max>
-              <Min>{formatMinTemperature(2, isFahrenheit)}</Min>
-            </DayWeekTempMaxMin>
-          </>
-        ) : (
-          <Loading>
-            <LoadingText>Loading...</LoadingText>
-          </Loading>
-        )}
-      </DayWeek>
-      <DayWeek>
-        {!loadingFive ? (
-          <>
-            <DayOfWeek>{dayOfWeek(3)}</DayOfWeek>
-            <DayWeekImg
-              src={
-                iconImg(3)
-                  ? `https://openweathermap.org/img/wn/${iconImg(3)}@2x.png`
-                  : ''
-              }
-              alt="Weather Icon"
-            />
-            <DayWeekTempMaxMin>
-              <Max>{formatMaxTemperature(3, isFahrenheit)}</Max>
-              <Min>{formatMinTemperature(3, isFahrenheit)}</Min>
-            </DayWeekTempMaxMin>
-          </>
-        ) : (
-          <Loading>
-            <LoadingText>Loading...</LoadingText>
-          </Loading>
-        )}
-      </DayWeek>
-      <DayWeek>
-        {!loadingFive ? (
-          <>
-            <DayOfWeek>{dayOfWeek(4)}</DayOfWeek>
-            <DayWeekImg
-              src={
-                iconImg(4)
-                  ? `https://openweathermap.org/img/wn/${iconImg(4)}@2x.png`
-                  : ''
-              }
-              alt="Weather Icon"
-            />
-            <DayWeekTempMaxMin>
-              <Max>{formatMaxTemperature(4, isFahrenheit)}</Max>
-              <Min>{formatMinTemperature(4, isFahrenheit)}</Min>
-            </DayWeekTempMaxMin>
-          </>
-        ) : (
-          <Loading>
-            <LoadingText>Loading...</LoadingText>
-          </Loading>
-        )}
-      </DayWeek>
+      {days.map((day) => (
+        <DayWeek key={day}>
+          {!loadingFive ? (
+            <>
+              {day === 0 ? (
+                <DayOfWeek>Tomorrow</DayOfWeek>
+              ) : (
+                <DayOfWeek>{dayOfWeek(day)}</DayOfWeek>
+              )}
+              <DayWeekImg
+                src={
+                  iconImg(day)
+                    ? `https://openweathermap.org/img/wn/${iconImg(day)}@2x.png`
+                    : ''
+                }
+                alt="Weather Icon"
+              />
+              <DayWeekTempMaxMin>
+                <Max>{formatMaxTemperature(day, isFahrenheit)}</Max>
+                <Min>{formatMinTemperature(day, isFahrenheit)}</Min>
+              </DayWeekTempMaxMin>
+            </>
+          ) : (
+            <Loading>
+              <LoadingText>Loading...</LoadingText>
+            </Loading>
+          )}
+        </DayWeek>
+      ))}
     </WeatherWeek>
   );
 };

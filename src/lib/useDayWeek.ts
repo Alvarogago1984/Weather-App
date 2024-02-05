@@ -2,22 +2,26 @@ import { useDateUtilFiveDay } from '../lib/useDateUtilFiveDay';
 import { formatDate } from './formatDate';
 
 export const useDayWeek = () => {
-  const { datesFilterMin, datesFilterMax, loadingFive} = useDateUtilFiveDay();
+  const { datesFilterMin, datesFilterMax, loadingFive } = useDateUtilFiveDay();
 
   const dayOfWeek = (number: number) => {
     return formatDate(datesFilterMax?.[number]?.dt_txt || '');
   };
 
   const iconImg = (number: number) => {
-    return datesFilterMax?.[number].weather.map((weathe) => weathe.icon) ;
+    return datesFilterMax?.[number].weather.map((weathe) => weathe.icon);
   };
 
   const temperatureCelsiusMax = (number: number): number => {
-    return datesFilterMax ? Math.round(datesFilterMax?.[number].main.temp_max) : 0;
+    return datesFilterMax
+      ? Math.round(datesFilterMax?.[number].main.temp_max)
+      : 0;
   };
 
   const temperatureCelsiusMin = (number: number): number => {
-    return datesFilterMin ? Math.round(datesFilterMin?.[number].main.temp_min) : 0;
+    return datesFilterMin
+      ? Math.round(datesFilterMin?.[number].main.temp_min)
+      : 0;
   };
 
   const temperatureFahrenheitMaxMin = (temperature: number): number => {
@@ -27,7 +31,7 @@ export const useDayWeek = () => {
   const formatMaxTemperature = (
     number: number,
     isFahrenheit: boolean,
-  ): number | string => {
+  ): string => {
     return isFahrenheit
       ? temperatureCelsiusMax(number) + 'ºC'
       : temperatureFahrenheitMaxMin(temperatureCelsiusMax(number)) + 'ºF';
@@ -36,7 +40,7 @@ export const useDayWeek = () => {
   const formatMinTemperature = (
     number: number,
     isFahrenheit: boolean,
-  ): number | string => {
+  ): string => {
     return isFahrenheit
       ? temperatureCelsiusMin(number) + 'ºC'
       : temperatureFahrenheitMaxMin(temperatureCelsiusMin(number)) + 'ºF';

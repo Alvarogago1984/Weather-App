@@ -61,3 +61,6 @@ align-items: center;
 export const LoadingText = styled.span`
 color: white;
 `
+export const WeatherWeekCointainer = styled.div`
+display: flex;
+`

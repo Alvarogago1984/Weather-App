@@ -1,8 +1,11 @@
 import { useEffect, useState, Dispatch, useContext } from 'react';
 import { useGeolocation } from '../lib/useGeolocation';
-import { CoorsProps, CoordsBooleanContext } from '../context/CoordsBooleanContext'
-import {  GeolocationProps } from '../lib/useGeolocation'
- 
+import {
+  CoorsProps,
+  CoordsBooleanContext,
+} from '../context/CoordsBooleanContext';
+import { GeolocationProps } from '../lib/useGeolocation';
+
 export interface WeatherData {
   base: string;
   clouds: {
@@ -51,7 +54,7 @@ export interface LongLatValueProps {
   lat: number;
   lon: number;
   stateCountry: string;
-  name:string;
+  name: string;
 }
 export interface UseCurrentWeatherData {
   weatherData?: WeatherData | null;
@@ -60,8 +63,8 @@ export interface UseCurrentWeatherData {
   cityLocal?: string;
   setCityLocal: Dispatch<React.SetStateAction<string>>;
   setLonLatValue: Dispatch<React.SetStateAction<LongLatValueProps | undefined>>;
-  lonLatValue: LongLatValueProps | undefined;
-  coords?:GeolocationProps | undefined;
+  lonLatValue?: LongLatValueProps | undefined;
+  coords?: GeolocationProps | undefined;
 }
 
 export const useCurrentWeather = (): UseCurrentWeatherData => {
@@ -70,14 +73,15 @@ export const useCurrentWeather = (): UseCurrentWeatherData => {
   const [cityLocal, setCityLocal] = useState<string>(city);
   const [lonLatValue, setLonLatValue] = useState<LongLatValueProps>();
 
-const {coords} = useGeolocation()
-const { isCoords } = useContext<CoorsProps | null>(CoordsBooleanContext) || {};
+  const { coords } = useGeolocation();
+  const { isCoords } =
+    useContext<CoorsProps | null>(CoordsBooleanContext) || {};
 
   useEffect(() => {
     const fetchWeather = async () => {
       try {
-        const latitude =isCoords ? coords?.Latitude: lonLatValue?.lat;
-        const longitude =isCoords ? coords?.Longitude: lonLatValue?.lon;
+        const latitude = isCoords ? coords?.Latitude : lonLatValue?.lat;
+        const longitude = isCoords ? coords?.Longitude : lonLatValue?.lon;
         const url =
           latitude && longitude
             ? `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=840fdbbddab09b30463280b8c2a850ed&lang=es&units=metric`

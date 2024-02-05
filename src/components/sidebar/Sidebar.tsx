@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
 import GpsIcon from '../../assets/icons/gps.svg';
-import Location from '../../assets/icons/location.svg';
+import LocationIcon from '../../assets/icons/location.svg';
 import { useDateUtilCurrentDay } from '../../lib/useDateUtilCurrentDay';
 import {
   SidebarSection,
@@ -83,7 +83,7 @@ export const Sidebar = ({ isFahrenheit }: SidebarProps) => {
                 src={`https://openweathermap.org/img/wn/${weatherData.weather[0]?.icon}@2x.png`}
                 alt="Weather Icon"
               />
-              <Temperature>
+              <Temperature data-testid='temperature'>
                 {isFahrenheit ? temperature : temperatureFahrenheit}
                 <TemperatureText>{isFahrenheit ? 'ºC' : 'ºF'}</TemperatureText>
               </Temperature>
@@ -97,7 +97,7 @@ export const Sidebar = ({ isFahrenheit }: SidebarProps) => {
               {dayNameSort + ', ' + dayDate + ' ' + monthDate}
             </DateDay>
             <DatePlace>
-              <LocationImg src={Location} alt="Location Icon" />
+              <LocationImg src={LocationIcon} alt="Location Icon" />
               {lonLatValue && coords?.Latitude && coords.Longitude
                 ? lonLatValue.name + ', ' + lonLatValue.stateCountry
                 : weatherData?.name}
@@ -112,7 +112,6 @@ export const Sidebar = ({ isFahrenheit }: SidebarProps) => {
           setCityLocal={setCityLocal}
           cityLocal={cityLocal}
           setLonLatValue={setLonLatValue}
-          lonLatValue={lonLatValue}
           setIsCoords={setIsCoords}
         />
       )}

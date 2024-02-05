@@ -18,11 +18,11 @@ import {
 } from '../../styles/SidebarSearchCSS';
 import { useListCity } from '../../services/useListCity';
 import { LongLatValueProps } from '../../services/useCurrentWeather';
-import { Dispatch } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 interface SidebarSearchProps extends UseCurrentWeatherData {
   setStateInput: React.Dispatch<React.SetStateAction<boolean>>;
 }
-interface SidebarProps extends SidebarSearchProps {
+export interface SidebarProps extends SidebarSearchProps {
   setLonLatValue: Dispatch<React.SetStateAction<LongLatValueProps | undefined>>;
   setIsCoords: React.Dispatch<React.SetStateAction<boolean>> | null;
 }
@@ -47,17 +47,24 @@ export const SidebarSearch = ({
     setCity('');
   };
 
-  const handleClickLatLong = (
-    lat: number,
-    lon: number,
-    stateCountry: string,
-    name: string,
-  ) => {
+  const handleClickLatLong = (list: {
+    lat: number;
+    lon: number;
+    state: string;
+    name: string;
+  }) => {
+    const { lat, lon, state, name } = list;
+    const stateCountry = state ? state : '';
     setLonLatValue({ lat, lon, stateCountry, name });
     setStateInput(true);
     if (setIsCoords) {
       setIsCoords(false);
     }
+  };
+  const handleChange = (event: {
+    target: { value: SetStateAction<string> };
+  }) => {
+    setCity(event.target.value);
   };
 
   return (
@@ -74,7 +81,7 @@ export const SidebarSearch = ({
           type="text"
           placeholder="search location"
           value={city}
-          onChange={(evt) => setCity(evt.target.value)}
+          onChange={handleChange}
         />
         <SearchButton type="submit">
           <SearchButtonText>Search</SearchButtonText>
@@ -87,9 +94,7 @@ export const SidebarSearch = ({
             listCity.map((list) => (
               <SearchListLi
                 key={list.lat}
-                onClick={() =>
-                  handleClickLatLong(list.lat, list.lon, list.state, list.name)
-                }
+                onClick={() => handleClickLatLong(list)}
               >
                 <SearchListLidiv>
                   <SearchListLiText>
